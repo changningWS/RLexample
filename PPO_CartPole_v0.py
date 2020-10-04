@@ -116,8 +116,8 @@ class PPO():
         #print("The agent is updateing....")
         for i in range(self.ppo_update_time):
             for index in BatchSampler(SubsetRandomSampler(range(len(self.buffer))), self.batch_size, False):
-                if self.training_step % 1000 ==0:
-                    print('I_ep {} ，train {} times'.format(i_ep,self.training_step))
+#                 if self.training_step % 1000 ==0:
+#                     print('I_ep {} ，train {} times'.format(i_ep,self.training_step))
                 #with torch.no_grad():
                 Gt_index = Gt[index].view(-1, 1)
                 V = self.critic_net(state[index])
@@ -152,7 +152,7 @@ class PPO():
     
 def main():
     agent = PPO()
-    for i_epoch in range(100):
+    for i_epoch in range(1000):
         state = env.reset()
         if render: env.render()
 

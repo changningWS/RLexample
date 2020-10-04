@@ -48,11 +48,11 @@ def value_iteration(env, gamma = 1.0):
     v = np.zeros(env.env.nS)
     max_iterations = 100000
     eps = 1e-20
-    for i in range(max_iterations): #没有policy参与，进行状态价值迭代
+    for i in range(max_iterations): #没有policy参与
         prev_v = np.copy(v)
         for s in range(env.env.nS):
             q_sa = [sum([p*(r + gamma * prev_v[s_]) for p, s_, r, _ in env.env.P[s][a]]) for a in range(env.env.nA)] 
-            v[s] = max(q_sa)
+            v[s] = max(q_sa) #选取状态s下对应最大后续状态价值的动作，使收敛更快
         if (np.sum(np.fabs(prev_v - v)) <= eps):
             print ('Value-iteration converged at iteration# %d.' %(i+1))
             break

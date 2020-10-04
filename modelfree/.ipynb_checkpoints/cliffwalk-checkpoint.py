@@ -128,6 +128,7 @@ def q_learning(env, num_episodes=500, render=True, exploration_rate=0.1,
         state = env.reset()
         done = False
         reward_sum = 0
+
         while not done:
             # 选择动作
             action = egreedy_policy(q_values, state, exploration_rate)
@@ -140,9 +141,12 @@ def q_learning(env, num_episodes=500, render=True, exploration_rate=0.1,
             q_values[state][action] += learning_rate * td_error
             # 更新状态
             state = next_state
+
             if render:
                 env.render(q_values, action=actions[action], colorize_q=True)
+
         ep_rewards.append(reward_sum)
+
     return ep_rewards, q_values
 
 
@@ -157,10 +161,12 @@ def sarsa(env, num_episodes=500, render=True, exploration_rate=0.1,
         reward_sum = 0
         # 选择动作
         action = egreedy_policy(q_values_sarsa, state, exploration_rate)
+
         while not done:
             # 执行动作
             next_state, reward, done = env.step(action)
             reward_sum += reward
+
             # 选择下一步动作
             next_action = egreedy_policy(q_values_sarsa, next_state, exploration_rate)
 
@@ -168,12 +174,16 @@ def sarsa(env, num_episodes=500, render=True, exploration_rate=0.1,
             td_error = td_target - q_values_sarsa[state][action]
             # 更新q value
             q_values_sarsa[state][action] += learning_rate * td_error
+
             # 更新状态和动作
             state = next_state
             action = next_action
+
             if render:
                 env.render(q_values, action=actions[action], colorize_q=True)
+
         ep_rewards.append(reward_sum)
+
     return ep_rewards, q_values_sarsa
 
 #可视化episode
